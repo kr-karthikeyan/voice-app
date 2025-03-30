@@ -1,0 +1,404 @@
+.container {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+}
+
+.header {
+  background: rgba(32, 32, 32, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  position: relative;
+}
+
+.avatarSection {
+  flex-shrink: 0;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.editButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.nameSection {
+  margin-bottom: 1rem;
+}
+
+.name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.username {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.5rem 0;
+}
+
+.bio {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.joinInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.settingsButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settingsButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.statsSection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
+
+.stat {
+  background: rgba(32, 32, 32, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.stat h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+.interestsSection {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.interest {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+}
+
+.interest:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.tabs {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab {
+  padding: 1rem 2rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.activeTab {
+  color: #fff;
+}
+
+.activeTab::after {
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.activityList {
+  display: grid;
+  gap: 1rem;
+}
+
+.activityCard {
+  background: rgba(32, 32, 32, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.activityHeader h3 {
+  font-size: 1.125rem;
+  margin: 0;
+  color: #fff;
+}
+
+.activityType {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  text-transform: capitalize;
+}
+
+.activityMeta {
+  display: flex;
+  gap: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.activityMeta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.achievementsList {
+  display: grid;
+  gap: 1rem;
+}
+
+.achievementCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(32, 32, 32, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.achievementIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #93c5fd;
+}
+
+.achievementInfo h3 {
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem;
+  color: #fff;
+}
+
+.achievementInfo p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .header {
+    padding: 2rem 1rem;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .avatarWrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .name {
+    font-size: 2rem;
+  }
+
+  .settingsButton {
+    position: static;
+    margin-top: 1rem;
+  }
+
+  .statsSection {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .interestsSection,
+  .tabs,
+  .content {
+    padding: 0 1rem;
+  }
+
+  .tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .activityMeta {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .statsSection {
+    grid-template-columns: 1fr;
+  }
+
+  .name {
+    font-size: 1.75rem;
+  }
+
+  .username {
+    font-size: 1rem;
+  }
+
+  .bio {
+    font-size: 0.9rem;
+  }
+
+  .achievementCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .achievementIcon {
+    margin: 0 auto;
+  }
+} 

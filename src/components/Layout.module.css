@@ -1,0 +1,9 @@
+.layout {
+  min-height: 100vh;
+  background: #000;
+}
+
+.main {
+  padding-top: 70px; /* Height of navbar */
+  min-height: calc(100vh - 70px);
+} 
