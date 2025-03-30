@@ -1,191 +1,122 @@
 import { useState } from 'react';
-import { Bell, Lock, Moon, Sun, User, Globe2, HelpCircle } from 'lucide-react';
-import styles from '../styles/Settings.module.css';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Switch } from '../components/ui/switch';
-import { useToast } from '../contexts/toast-context';
+import { motion } from 'framer-motion';
+import { Settings, Mic, MicOff, Bell, BellOff, Moon, Sun } from 'lucide-react';
+import Image from 'next/image';
 
-interface NotificationSettings {
-  email: boolean;
-  push: boolean;
-  mentions: boolean;
-}
-
-interface PrivacySettings {
-  profileVisibility: 'public' | 'private' | 'friends';
-  showOnlineStatus: boolean;
-  allowFriendRequests: boolean;
-}
-
-interface ThemeSettings {
-  mode: 'light' | 'dark' | 'system';
-}
-
-interface LanguageSettings {
-  language: string;
-  region: string;
-}
-
-export default function Settings() {
-  const { showToast } = useToast();
-  const [notifications, setNotifications] = useState<NotificationSettings>({
-    email: true,
-    push: true,
-    mentions: true,
-  });
-  const [privacy, setPrivacy] = useState<PrivacySettings>({
-    profileVisibility: 'public',
-    showOnlineStatus: true,
-    allowFriendRequests: true,
-  });
-  const [theme, setTheme] = useState<ThemeSettings>({
-    mode: 'dark',
-  });
-  const [language, setLanguage] = useState<LanguageSettings>({
-    language: 'English',
-    region: 'United States',
-  });
-
-  const handleSave = () => {
-    showToast('Settings saved successfully');
-  };
+export default function SettingsPage() {
+  const [isMuted, setIsMuted] = useState(false);
+  const [notifications, setNotifications] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1>Settings</h1>
-        <p>Manage your account preferences and settings</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-3 mb-8"
+        >
+          <Settings size={24} />
+          <h1 className="text-2xl font-bold">Settings</h1>
+        </motion.div>
 
-      <div className={styles.content}>
-        <section className={styles.section}>
-          <h2>Notifications</h2>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Email Notifications</h3>
-              <p>Receive updates via email</p>
+        <div className="space-y-6">
+          {/* Profile Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-white/5 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <h2 className="text-xl font-semibold mb-4">Profile</h2>
+            <div className="flex items-center gap-4">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                <Image
+                  src="/avatar.png"
+                  alt="Profile"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium">John Doe</h3>
+                <p className="text-white/70">john@example.com</p>
+              </div>
             </div>
-            <Switch
-              checked={notifications.email}
-              onCheckedChange={(checked) => setNotifications({ ...notifications, email: checked })}
-            />
-          </div>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Push Notifications</h3>
-              <p>Receive updates on your device</p>
-            </div>
-            <Switch
-              checked={notifications.push}
-              onCheckedChange={(checked) => setNotifications({ ...notifications, push: checked })}
-            />
-          </div>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Mentions</h3>
-              <p>Get notified when mentioned</p>
-            </div>
-            <Switch
-              checked={notifications.mentions}
-              onCheckedChange={(checked) => setNotifications({ ...notifications, mentions: checked })}
-            />
-          </div>
-        </section>
+          </motion.div>
 
-        <section className={styles.section}>
-          <h2>Privacy</h2>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Profile Visibility</h3>
-              <p>Control who can see your profile</p>
+          {/* Audio Settings */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white/5 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <h2 className="text-xl font-semibold mb-4">Audio Settings</h2>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {isMuted ? <MicOff size={20} /> : <Mic size={20} />}
+                  <span>Microphone</span>
+                </div>
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  {isMuted ? 'Unmute' : 'Mute'}
+                </button>
+              </div>
             </div>
-            <select
-              value={privacy.profileVisibility}
-              onChange={(e) => setPrivacy({ ...privacy, profileVisibility: e.target.value as PrivacySettings['profileVisibility'] })}
-            >
-              <option value="public">Public</option>
-              <option value="private">Private</option>
-              <option value="friends">Friends Only</option>
-            </select>
-          </div>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Show Online Status</h3>
-              <p>Let others see when you're online</p>
-            </div>
-            <Switch
-              checked={privacy.showOnlineStatus}
-              onCheckedChange={(checked) => setPrivacy({ ...privacy, showOnlineStatus: checked })}
-            />
-          </div>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Allow Friend Requests</h3>
-              <p>Let others send you friend requests</p>
-            </div>
-            <Switch
-              checked={privacy.allowFriendRequests}
-              onCheckedChange={(checked) => setPrivacy({ ...privacy, allowFriendRequests: checked })}
-            />
-          </div>
-        </section>
+          </motion.div>
 
-        <section className={styles.section}>
-          <h2>Theme</h2>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Theme Mode</h3>
-              <p>Choose your preferred theme</p>
+          {/* Notifications */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white/5 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <h2 className="text-xl font-semibold mb-4">Notifications</h2>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {notifications ? <Bell size={20} /> : <BellOff size={20} />}
+                  <span>Push Notifications</span>
+                </div>
+                <button
+                  onClick={() => setNotifications(!notifications)}
+                  className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  {notifications ? 'Disable' : 'Enable'}
+                </button>
+              </div>
             </div>
-            <select
-              value={theme.mode}
-              onChange={(e) => setTheme({ ...theme, mode: e.target.value as ThemeSettings['mode'] })}
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="system">System</option>
-            </select>
-          </div>
-        </section>
+          </motion.div>
 
-        <section className={styles.section}>
-          <h2>Language & Region</h2>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Language</h3>
-              <p>Select your preferred language</p>
+          {/* Appearance */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white/5 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <h2 className="text-xl font-semibold mb-4">Appearance</h2>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {darkMode ? <Moon size={20} /> : <Sun size={20} />}
+                  <span>Dark Mode</span>
+                </div>
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  {darkMode ? 'Disable' : 'Enable'}
+                </button>
+              </div>
             </div>
-            <select
-              value={language.language}
-              onChange={(e) => setLanguage({ ...language, language: e.target.value })}
-            >
-              <option value="English">English</option>
-              <option value="Spanish">Spanish</option>
-              <option value="French">French</option>
-              <option value="German">German</option>
-            </select>
-          </div>
-          <div className={styles.setting}>
-            <div className={styles.settingInfo}>
-              <h3>Region</h3>
-              <p>Select your region</p>
-            </div>
-            <select
-              value={language.region}
-              onChange={(e) => setLanguage({ ...language, region: e.target.value })}
-            >
-              <option value="United States">United States</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Canada">Canada</option>
-              <option value="Australia">Australia</option>
-            </select>
-          </div>
-        </section>
-      </div>
-
-      <div className={styles.footer}>
-        <Button onClick={handleSave}>Save Changes</Button>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

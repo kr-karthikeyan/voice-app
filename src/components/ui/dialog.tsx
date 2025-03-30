@@ -56,20 +56,20 @@ const dialogHeaderVariants = cva(
   }
 );
 
-const dialogFooterVariants = cva(
-  "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-  {
-    variants: {
-      variant: {
-        default: "",
-        glass: "text-white",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
+// const dialogFooterVariants = cva(
+//   "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+//   {
+//     variants: {
+//       variant: {
+//         default: "",
+//         glass: "text-white",
+//       },
+//     },
+//     defaultVariants: {
+//       variant: "default",
+//     },
+//   }
+// );
 
 const dialogTitleVariants = cva(
   "text-lg font-semibold leading-none tracking-tight",

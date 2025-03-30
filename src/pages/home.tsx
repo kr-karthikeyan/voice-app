@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { 
-  Mic, Users, Globe, Clock, Search, Filter,
-  Code, Music, Palette, Briefcase, Gamepad, Heart,
-  Settings, ChevronRight
+  Mic, Users,
+  Code, Music, Palette, Briefcase, Gamepad, Heart, ChevronRight
 } from "lucide-react";
 import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';

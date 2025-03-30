@@ -49,11 +49,11 @@ export interface CheckboxProps
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   label?: string;
-  indeterminate?: boolean;
+  // indeterminate?: boolean;
 }
 
 const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(
-  ({ className, variant, size, checked, onCheckedChange, label, indeterminate, ...props }, ref) => {
+  ({ className, variant, size, checked, onCheckedChange, label, ...props }, ref) => {
   return (
     <div className="flex items-center space-x-2">
       <motion.button

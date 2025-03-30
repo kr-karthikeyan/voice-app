@@ -68,7 +68,7 @@ export interface RadioGroupProps
     VariantProps<typeof radioGroupVariants> {
   value?: string;
   onValueChange?: (value: string) => void;
-  defaultValue?: string;
+  // defaultValue?: string;
 }
 
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
@@ -107,7 +107,7 @@ export interface RadioGroupItemProps
 }
 
 const RadioGroupItem = React.forwardRef<HTMLButtonElement, RadioGroupItemProps>(
-  ({ className, variant, size, value, checked, onCheckedChange, label, ...props }, ref) => {
+  ({ className, variant, size, checked, onCheckedChange, label, ...props }, ref) => {
     return (
       <div className="flex items-center space-x-2">
         <motion.button

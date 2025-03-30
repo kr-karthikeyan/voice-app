@@ -89,7 +89,7 @@ export interface SelectProps
 }
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps>(
-  ({ className, variant, size, value, onValueChange, defaultValue, placeholder, items, ...props }, ref) => {
+  ({ variant, size, value, onValueChange, placeholder, items, ...props }, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ChevronDown, Check } from "lucide-react";
 import * as React from "react";
 
 const dropdownMenuVariants = cva(

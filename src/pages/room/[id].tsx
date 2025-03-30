@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, MicOff, Users, Settings, X, ChevronLeft, ChevronRight, Volume2, VolumeX, Phone, PhoneOff, Smile } from 'lucide-react';
+import {Settings, X, ChevronLeft, ChevronRight} from 'lucide-react';
 import { Room } from '@/types';
 import styles from '@/styles/Room.module.css';
 import { FaUsers, FaTag, FaMicrophone, FaHeadphones, FaMicrophoneSlash, FaSmile } from 'react-icons/fa';
@@ -35,16 +35,16 @@ const vibrate = (pattern: number | number[]) => {
 };
 
 // Emoji reactions with labels and colors
-const EMOJI_REACTIONS = [
-  { emoji: '👍', label: 'Thumbs Up', color: '#4CAF50' },
-  { emoji: '👏', label: 'Clap', color: '#FFC107' },
-  { emoji: '❤️', label: 'Heart', color: '#F44336' },
-  { emoji: '😂', label: 'Laugh', color: '#FF9800' },
-  { emoji: '🤔', label: 'Thinking', color: '#9C27B0' },
-  { emoji: '🎉', label: 'Celebrate', color: '#E91E63' },
-  { emoji: '👋', label: 'Wave', color: '#2196F3' },
-  { emoji: '💪', label: 'Strong', color: '#795548' },
-];
+// const EMOJI_REACTIONS = [
+//   { emoji: '👍', label: 'Thumbs Up', color: '#4CAF50' },
+//   { emoji: '👏', label: 'Clap', color: '#FFC107' },
+//   { emoji: '❤️', label: 'Heart', color: '#F44336' },
+//   { emoji: '😂', label: 'Laugh', color: '#FF9800' },
+//   { emoji: '🤔', label: 'Thinking', color: '#9C27B0' },
+//   { emoji: '🎉', label: 'Celebrate', color: '#E91E63' },
+//   { emoji: '👋', label: 'Wave', color: '#2196F3' },
+//   { emoji: '💪', label: 'Strong', color: '#795548' },
+// ];
 
 interface FloatingEmoji {
   id: number;
@@ -68,9 +68,10 @@ export default function RoomPage() {
   const [floatingEmojis, setFloatingEmojis] = useState<FloatingEmoji[]>([]);
   const [emojiCounter, setEmojiCounter] = useState(0);
 
-  const handleHover = () => {
-    vibrate(10);
-  };
+  console.log(isSpeaking)
+//   const handleHover = () => {
+//     vibrate(10);
+//   };
 
   useEffect(() => {
     // Simulate API call
@@ -123,46 +124,46 @@ export default function RoomPage() {
     }
   };
 
-  const handleJoinRoom = async () => {
-    if (!room) return;
+//   const handleJoinRoom = async () => {
+//     if (!room) return;
     
-    if (isSpeaker) {
-      // If already joined, remove from speakers
-      vibrate([50, 30, 50]);
-      setRoom({
-        ...room,
-        speakers: room.speakers.filter(user => user.id !== 'current-user'),
-        listeners: [...room.listeners, {
-          id: 'current-user',
-          name: 'You',
-          avatar: 'https://i.pravatar.cc/150?u=current',
-          isMuted: true,
-          speaking: false,
-        }],
-      });
-      setIsSpeaker(false);
-    } else {
-      // Join as speaker
-      vibrate([50, 30, 50]);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+//     if (isSpeaker) {
+//       // If already joined, remove from speakers
+//       vibrate([50, 30, 50]);
+//       setRoom({
+//         ...room,
+//         speakers: room.speakers.filter(user => user.id !== 'current-user'),
+//         listeners: [...room.listeners, {
+//           id: 'current-user',
+//           name: 'You',
+//           avatar: 'https://i.pravatar.cc/150?u=current',
+//           isMuted: true,
+//           speaking: false,
+//         }],
+//       });
+//       setIsSpeaker(false);
+//     } else {
+//       // Join as speaker
+//       vibrate([50, 30, 50]);
+//       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      const currentUser = {
-        id: 'current-user',
-        name: 'You',
-        avatar: 'https://i.pravatar.cc/150?u=current',
-        isMuted: false,
-        speaking: false,
-      };
+//       const currentUser = {
+//         id: 'current-user',
+//         name: 'You',
+//         avatar: 'https://i.pravatar.cc/150?u=current',
+//         isMuted: false,
+//         speaking: false,
+//       };
 
-      setRoom({
-        ...room,
-        speakers: [...room.speakers, currentUser],
-        listeners: room.listeners.filter(user => user.id !== 'current-user'),
-      });
+//       setRoom({
+//         ...room,
+//         speakers: [...room.speakers, currentUser],
+//         listeners: room.listeners.filter(user => user.id !== 'current-user'),
+//       });
       
-      setIsSpeaker(true);
-    }
-  };
+//       setIsSpeaker(true);
+//     }
+//   };
 
   const handleLeaveRoom = () => {
     if (!room) return;

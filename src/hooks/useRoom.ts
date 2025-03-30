@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Room, User } from "@/types";
+import { Room } from "@/types";
 
 export const useRoom = (initialRoom: Room) => {
   const [room, setRoom] = useState<Room>(initialRoom);
