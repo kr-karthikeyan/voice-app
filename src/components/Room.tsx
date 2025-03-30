@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { Mic, MicOff, Users, Clock, Globe } from 'lucide-react';
+import { Mic, MicOff, Users, Clock, Globe, Lock, Settings } from 'lucide-react';
 import Image from 'next/image';
 import styles from './Room.module.css';
 import { Room as RoomType } from '../types';
@@ -11,11 +11,16 @@ interface RoomCardProps {
 }
 
 export function RoomCard({ room }: RoomCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
+  const [isMuted, setIsMuted] = useState(false);
 
   const handleClick = () => {
     router.push(`/room/${room.id}`);
+  };
+
+  const handleToggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsMuted(!isMuted);
   };
 
   // Format date consistently using UTC to avoid locale issues
@@ -33,8 +38,6 @@ export function RoomCard({ room }: RoomCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
     >
       <header className={styles.header}>
@@ -45,6 +48,7 @@ export function RoomCard({ room }: RoomCardProps) {
               <Globe size={14} />
               <span>{room.category}</span>
             </div>
+            {room.isPrivate && <Lock size={16} className={styles.privateIcon} />}
           </div>
           <div className={styles.badge}>
             <Users size={16} />
@@ -147,6 +151,14 @@ export function RoomCard({ room }: RoomCardProps) {
         <div className={styles.activeIndicator}>
           Active now
         </div>
+        <div className={styles.muteButtonContainer}>
+          <button
+            onClick={handleToggleMute}
+            className={styles.muteButton}
+          >
+            {isMuted ? <MicOff size={20} /> : <Mic size={20} />}
+          </button>
+        </div>
         <motion.button
           className={styles.joinButton}
           whileHover={{ scale: 1.02 }}
@@ -158,6 +170,17 @@ export function RoomCard({ room }: RoomCardProps) {
         >
           Join room
         </motion.button>
+        <div className={styles.settingsButtonContainer}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle settings
+            }}
+            className={styles.settingsButton}
+          >
+            <Settings size={20} />
+          </button>
+        </div>
       </footer>
     </motion.div>
   );
