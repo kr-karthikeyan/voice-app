@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Clock, Mic, MicOff, Tag, Hash } from 'lucide-react';
-import { Room } from '@/types';
-import styles from './Room.module.css';
 import { useRouter } from 'next/router';
+import { Mic, MicOff, Users, Clock, Globe } from 'lucide-react';
+import Image from 'next/image';
+import styles from './Room.module.css';
+import { Room as RoomType } from '../types';
 
 interface RoomCardProps {
-  room: Room;
+  room: RoomType;
 }
 
 export function RoomCard({ room }: RoomCardProps) {
@@ -41,7 +42,7 @@ export function RoomCard({ room }: RoomCardProps) {
           <div className={styles.titleWrapper}>
             <h3 className={styles.title}>{room.name}</h3>
             <div className={styles.category}>
-              <Hash size={14} />
+              <Globe size={14} />
               <span>{room.category}</span>
             </div>
           </div>
@@ -80,10 +81,12 @@ export function RoomCard({ room }: RoomCardProps) {
                 whileTap={{ scale: 0.95 }}
               >
                 <div className={styles.avatarContainer}>
-                  <img
+                  <Image
                     src={speaker.avatar}
                     alt={speaker.name}
-                    className={styles.avatar}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
                   />
                   {speaker.speaking && (
                     <div className={styles.speakingIndicator} />
@@ -113,10 +116,12 @@ export function RoomCard({ room }: RoomCardProps) {
                   whileTap={{ scale: 0.95 }}
                 >
                   <div className={styles.avatarContainer}>
-                    <img
+                    <Image
                       src={listener.avatar}
                       alt={listener.name}
-                      className={styles.avatar}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
                     />
                   </div>
                   <span className={styles.userName}>{listener.name}</span>
@@ -130,7 +135,7 @@ export function RoomCard({ room }: RoomCardProps) {
           <div className={styles.tags}>
             {room.tags.map((tag) => (
               <span key={tag} className={styles.tag}>
-                <Tag size={12} />
+                <Globe size={12} />
                 {tag}
               </span>
             ))}

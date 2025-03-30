@@ -1,196 +1,192 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Bell, Lock, Palette, Volume2, User, Globe, HelpCircle } from 'lucide-react';
-import { Layout } from '@/components/layout/Layout';
-import styles from '@/styles/Settings.module.css';
+import { Bell, Lock, Moon, Sun, User, Globe2, HelpCircle } from 'lucide-react';
+import styles from '../styles/Settings.module.css';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Switch } from '../components/ui/switch';
+import { useToast } from '../contexts/toast-context';
 
-type TextSetting = {
-  id: string;
-  label: string;
-  value: string;
-  type: 'text' | 'email';
-};
+interface NotificationSettings {
+  email: boolean;
+  push: boolean;
+  mentions: boolean;
+}
 
-type ToggleSetting = {
-  id: string;
-  label: string;
-  value: boolean;
-  type: 'toggle';
-};
+interface PrivacySettings {
+  profileVisibility: 'public' | 'private' | 'friends';
+  showOnlineStatus: boolean;
+  allowFriendRequests: boolean;
+}
 
-type SelectSetting = {
-  id: string;
-  label: string;
-  value: string;
-  type: 'select';
-  options?: string[];
-};
+interface ThemeSettings {
+  mode: 'light' | 'dark' | 'system';
+}
 
-type Setting = TextSetting | ToggleSetting | SelectSetting;
+interface LanguageSettings {
+  language: string;
+  region: string;
+}
 
-type SettingsSection = {
-  id: string;
-  title: string;
-  icon: any;
-  settings: Setting[];
-};
+export default function Settings() {
+  const { showToast } = useToast();
+  const [notifications, setNotifications] = useState<NotificationSettings>({
+    email: true,
+    push: true,
+    mentions: true,
+  });
+  const [privacy, setPrivacy] = useState<PrivacySettings>({
+    profileVisibility: 'public',
+    showOnlineStatus: true,
+    allowFriendRequests: true,
+  });
+  const [theme, setTheme] = useState<ThemeSettings>({
+    mode: 'dark',
+  });
+  const [language, setLanguage] = useState<LanguageSettings>({
+    language: 'English',
+    region: 'United States',
+  });
 
-const settingsSections: SettingsSection[] = [
-  {
-    id: 'account',
-    title: 'Account Settings',
-    icon: User,
-    settings: [
-      { id: 'name', label: 'Display Name', value: 'Karthikeyan', type: 'text' },
-      { id: 'email', label: 'Email Address', value: 'karthik@example.com', type: 'email' },
-      { id: 'username', label: 'Username', value: '@karthikeyan', type: 'text' }
-    ]
-  },
-  {
-    id: 'notifications',
-    title: 'Notifications',
-    icon: Bell,
-    settings: [
-      { id: 'roomStart', label: 'Room Start Alerts', value: true, type: 'toggle' },
-      { id: 'mentions', label: 'Mentions & Replies', value: true, type: 'toggle' },
-      { id: 'newFollower', label: 'New Follower Alerts', value: false, type: 'toggle' }
-    ]
-  },
-  {
-    id: 'privacy',
-    title: 'Privacy & Security',
-    icon: Lock,
-    settings: [
-      { id: 'privateProfile', label: 'Private Profile', value: false, type: 'toggle' },
-      { id: 'showActivity', label: 'Show Activity Status', value: true, type: 'toggle' },
-      { id: 'allowMessages', label: 'Allow Direct Messages', value: true, type: 'toggle' }
-    ]
-  },
-  {
-    id: 'audio',
-    title: 'Audio Settings',
-    icon: Volume2,
-    settings: [
-      { 
-        id: 'inputDevice', 
-        label: 'Input Device', 
-        value: 'Default Microphone', 
-        type: 'select',
-        options: ['Default Microphone', 'External Microphone', 'Headset Microphone']
-      },
-      { 
-        id: 'outputDevice', 
-        label: 'Output Device', 
-        value: 'Default Speaker', 
-        type: 'select',
-        options: ['Default Speaker', 'External Speaker', 'Headphones']
-      },
-      { 
-        id: 'quality', 
-        label: 'Audio Quality', 
-        value: 'High', 
-        type: 'select',
-        options: ['Low', 'Medium', 'High']
-      }
-    ]
-  }
-];
-
-export default function SettingsPage() {
-  const [activeSection, setActiveSection] = useState('account');
-
-  const handleInputChange = (sectionId: string, settingId: string, value: string | boolean) => {
-    console.log('Setting updated:', { sectionId, settingId, value });
-  };
-
-  const renderSettingInput = (setting: Setting) => {
-    switch (setting.type) {
-      case 'toggle':
-        return (
-          <div
-            className={`${styles.toggle} ${setting.value ? styles.active : ''}`}
-            onClick={() => handleInputChange(activeSection, setting.id, !setting.value)}
-          >
-            <div className={styles.toggleHandle} />
-          </div>
-        );
-      case 'select':
-        return (
-          <select
-            id={setting.id}
-            value={setting.value}
-            onChange={(e) => handleInputChange(activeSection, setting.id, e.target.value)}
-            className={styles.select}
-          >
-            {setting.options?.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        );
-      default:
-        return (
-          <input
-            type={setting.type}
-            id={setting.id}
-            value={setting.value}
-            onChange={(e) => handleInputChange(activeSection, setting.id, e.target.value)}
-            className={styles.input}
-          />
-        );
-    }
+  const handleSave = () => {
+    showToast('Settings saved successfully');
   };
 
   return (
-    <Layout>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h1>Settings</h1>
-          <p>Manage your account settings and preferences</p>
-        </div>
-
-        <div className={styles.content}>
-          <nav className={styles.sidebar}>
-            {settingsSections.map((section) => (
-              <button
-                key={section.id}
-                className={`${styles.navItem} ${activeSection === section.id ? styles.active : ''}`}
-                onClick={() => setActiveSection(section.id)}
-              >
-                <section.icon size={20} />
-                {section.title}
-              </button>
-            ))}
-          </nav>
-
-          <div className={styles.settingsContent}>
-            {settingsSections.map((section) => (
-              <motion.section
-                key={section.id}
-                className={`${styles.section} ${activeSection === section.id ? styles.visible : styles.hidden}`}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: activeSection === section.id ? 1 : 0, x: activeSection === section.id ? 0 : 20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h2>{section.title}</h2>
-                <div className={styles.settingsList}>
-                  {section.settings.map((setting) => (
-                    <div key={setting.id} className={styles.settingItem}>
-                      <label htmlFor={setting.id}>{setting.label}</label>
-                      {renderSettingInput(setting)}
-                    </div>
-                  ))}
-                </div>
-              </motion.section>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.footer}>
-          {/* <button className={styles.saveButton}>Save Changes</button> */}
-        </div>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Settings</h1>
+        <p>Manage your account preferences and settings</p>
       </div>
-    </Layout>
+
+      <div className={styles.content}>
+        <section className={styles.section}>
+          <h2>Notifications</h2>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Email Notifications</h3>
+              <p>Receive updates via email</p>
+            </div>
+            <Switch
+              checked={notifications.email}
+              onCheckedChange={(checked) => setNotifications({ ...notifications, email: checked })}
+            />
+          </div>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Push Notifications</h3>
+              <p>Receive updates on your device</p>
+            </div>
+            <Switch
+              checked={notifications.push}
+              onCheckedChange={(checked) => setNotifications({ ...notifications, push: checked })}
+            />
+          </div>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Mentions</h3>
+              <p>Get notified when mentioned</p>
+            </div>
+            <Switch
+              checked={notifications.mentions}
+              onCheckedChange={(checked) => setNotifications({ ...notifications, mentions: checked })}
+            />
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Privacy</h2>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Profile Visibility</h3>
+              <p>Control who can see your profile</p>
+            </div>
+            <select
+              value={privacy.profileVisibility}
+              onChange={(e) => setPrivacy({ ...privacy, profileVisibility: e.target.value as PrivacySettings['profileVisibility'] })}
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+              <option value="friends">Friends Only</option>
+            </select>
+          </div>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Show Online Status</h3>
+              <p>Let others see when you're online</p>
+            </div>
+            <Switch
+              checked={privacy.showOnlineStatus}
+              onCheckedChange={(checked) => setPrivacy({ ...privacy, showOnlineStatus: checked })}
+            />
+          </div>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Allow Friend Requests</h3>
+              <p>Let others send you friend requests</p>
+            </div>
+            <Switch
+              checked={privacy.allowFriendRequests}
+              onCheckedChange={(checked) => setPrivacy({ ...privacy, allowFriendRequests: checked })}
+            />
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Theme</h2>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Theme Mode</h3>
+              <p>Choose your preferred theme</p>
+            </div>
+            <select
+              value={theme.mode}
+              onChange={(e) => setTheme({ ...theme, mode: e.target.value as ThemeSettings['mode'] })}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Language & Region</h2>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Language</h3>
+              <p>Select your preferred language</p>
+            </div>
+            <select
+              value={language.language}
+              onChange={(e) => setLanguage({ ...language, language: e.target.value })}
+            >
+              <option value="English">English</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+            </select>
+          </div>
+          <div className={styles.setting}>
+            <div className={styles.settingInfo}>
+              <h3>Region</h3>
+              <p>Select your region</p>
+            </div>
+            <select
+              value={language.region}
+              onChange={(e) => setLanguage({ ...language, region: e.target.value })}
+            >
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+            </select>
+          </div>
+        </section>
+      </div>
+
+      <div className={styles.footer}>
+        <Button onClick={handleSave}>Save Changes</Button>
+      </div>
+    </div>
   );
 } 
