@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { Mic, MicOff, Users, Clock, Globe, Lock, Settings } from 'lucide-react';
+import { Mic, MicOff, Users, Clock, Globe, Lock } from 'lucide-react';
 import Image from 'next/image';
 import styles from './Room.module.css';
 import { Room as RoomType } from '../types';
@@ -74,7 +74,9 @@ export function RoomCard({ room }: RoomCardProps) {
               <Mic size={16} />
               Speakers ({room.speakers.length}/{room.maxSpeakers})
             </div>
-            <span className={styles.sectionCount}>{room.speakers.length} active</span>
+            <span className={styles.sectionCount}>
+              {room.speakers.filter(speaker => speaker.speaking).length} active
+            </span>
           </div>
           <div className={styles.userGrid}>
             {room.speakers.map((speaker) => (
@@ -90,7 +92,7 @@ export function RoomCard({ room }: RoomCardProps) {
                     alt={speaker.name}
                     width={40}
                     height={40}
-                    className="rounded-full"
+                    className={styles.avatar}
                   />
                   {speaker.speaking && (
                     <div className={styles.speakingIndicator} />
@@ -106,10 +108,9 @@ export function RoomCard({ room }: RoomCardProps) {
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
               <div className={styles.sectionTitle}>
-                <MicOff size={16} />
-                Listeners
+                <Users size={16} />
+                Listeners ({room.listeners.length})
               </div>
-              <span className={styles.sectionCount}>{room.listeners.length} listening</span>
             </div>
             <div className={styles.userGrid}>
               {room.listeners.map((listener) => (
@@ -125,7 +126,7 @@ export function RoomCard({ room }: RoomCardProps) {
                       alt={listener.name}
                       width={40}
                       height={40}
-                      className="rounded-full"
+                      className={styles.avatar}
                     />
                   </div>
                   <span className={styles.userName}>{listener.name}</span>
@@ -135,11 +136,10 @@ export function RoomCard({ room }: RoomCardProps) {
           </div>
         )}
 
-        {room.tags && room.tags.length > 0 && (
+        {room.tags.length > 0 && (
           <div className={styles.tags}>
             {room.tags.map((tag) => (
               <span key={tag} className={styles.tag}>
-                <Globe size={12} />
                 {tag}
               </span>
             ))}
@@ -149,38 +149,15 @@ export function RoomCard({ room }: RoomCardProps) {
 
       <footer className={styles.footer}>
         <div className={styles.activeIndicator}>
-          Active now
+          {room.speakers.filter(speaker => speaker.speaking).length} active speakers
         </div>
-        <div className={styles.muteButtonContainer}>
-          <button
-            onClick={handleToggleMute}
-            className={styles.muteButton}
-          >
-            {isMuted ? <MicOff size={20} /> : <Mic size={20} />}
-          </button>
-        </div>
-        <motion.button
+        <button
           className={styles.joinButton}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleClick();
-          }}
+          onClick={handleToggleMute}
         >
-          Join room
-        </motion.button>
-        <div className={styles.settingsButtonContainer}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle settings
-            }}
-            className={styles.settingsButton}
-          >
-            <Settings size={20} />
-          </button>
-        </div>
+          {isMuted ? <MicOff size={16} /> : <Mic size={16} />}
+          {isMuted ? 'Unmute' : 'Mute'}
+        </button>
       </footer>
     </motion.div>
   );
